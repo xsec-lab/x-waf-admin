@@ -1,0 +1,8 @@
+.idea
+.vscode
+server
+.iml
+release
+#conf
+sql
+tmp
