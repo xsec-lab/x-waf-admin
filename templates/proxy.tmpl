@@ -2,6 +2,10 @@ upstream proxy_{{.site.SiteName}} { {{range .site.BackendAddr}}
         server {{.}} max_fails=3  fail_timeout=20s;
         {{end}} }
 
+upstream proxy_{{.site.SiteName}} { {{range .site.UnrealAddr}}
+        server {{.}} max_fails=3  fail_timeout=20s;
+        {{end}} }
+
 server  {
         listen       {{.site.Port}};
         ssl          {{.site.Ssl}};
@@ -12,13 +16,15 @@ server  {
         error_log       /var/log/nginx/{{.site.SiteName}}-debug.log {{.site.DebugLevel}};
         
         location ~* ^/ {
+            access_by_lua 'waf.start_jingshuishuiyue()';
             proxy_pass_header Server;
             proxy_set_header Host $http_host;
             proxy_set_header Host api.miren.t.n.mi.com;
             proxy_redirect off;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Scheme $scheme;
-            proxy_pass $scheme://proxy_{{.site.SiteName}};
+            # proxy_pass $scheme://$target;
+            # proxy_pass $scheme://proxy_{{.site.SiteName}};
             }
 
             error_page  404              /index.html;

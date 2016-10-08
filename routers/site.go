@@ -33,6 +33,8 @@ func DoNewSite(ctx *macaron.Context, sess session.Store) {
 		siteName := ctx.Req.Form.Get("sitename")
 		port := ctx.Req.Form.Get("port")
 		Port, _ := strconv.Atoi(port)
+
+		// get nginx upstream backend address
 		backaddr := ctx.Req.Form.Get("backendaddr")
 		backendaddr := strings.Split(backaddr, "\r\n")
 		BackendAddr := make([]string, 0)
@@ -44,11 +46,23 @@ func DoNewSite(ctx *macaron.Context, sess session.Store) {
 			BackendAddr = append(BackendAddr, v)
 		}
 
+		// get nginx upstream unreal address
+		unrealAddr := ctx.Req.Form("unreal_addr")
+		unrealAddrs := strings.Split(unrealAddr, "\r\n")
+		UnrealAddr := make([]string, 0)
+		for _, v := range unrealAddrs {
+			v = strings.TrimSpace(v)
+			if v == "" {
+				continue
+			}
+			UnrealAddr = append(UnrealAddr, v)
+		}
+
 		ssl := ctx.Req.Form.Get("ssl")
 		debugLevel := ctx.Req.Form.Get("debuglevel")
 
 		log.Println(siteName, BackendAddr, ssl, debugLevel)
-		models.NewSite(siteName, Port, BackendAddr, ssl, debugLevel)
+		models.NewSite(siteName, Port, BackendAddr, UnrealAddr, ssl, debugLevel)
 		ctx.Redirect("/admin/site/list/")
 	} else {
 		ctx.Redirect("/login/")
@@ -76,6 +90,8 @@ func DoEditSite(ctx *macaron.Context, sess session.Store) {
 		siteName := ctx.Req.Form.Get("sitename")
 		port := ctx.Req.Form.Get("port")
 		Port, _ := strconv.Atoi(port)
+
+		// get nginx upstream backend address
 		backaddr := ctx.Req.Form.Get("backendaddr")
 		backendaddr := strings.Split(backaddr, "\r\n")
 		BackendAddr := make([]string, 0)
@@ -86,10 +102,23 @@ func DoEditSite(ctx *macaron.Context, sess session.Store) {
 			}
 			BackendAddr = append(BackendAddr, v)
 		}
+
+		// get nginx upstream unreal address
+		unrealAddr := ctx.Req.Form("unreal_addr")
+		unrealAddrs := strings.Split(unrealAddr, "\r\n")
+		UnrealAddr := make([]string, 0)
+		for _, v := range unrealAddrs {
+			v = strings.TrimSpace(v)
+			if v == "" {
+				continue
+			}
+			UnrealAddr = append(UnrealAddr, v)
+		}
+
 		ssl := ctx.Req.Form.Get("ssl")
 		debugLevel := ctx.Req.Form.Get("debuglevel")
 		log.Println(Id, siteName, BackendAddr, ssl, debugLevel)
-		log.Println(models.UpdateSite(Id, siteName, Port, BackendAddr, ssl, debugLevel))
+		log.Println(models.UpdateSite(Id, siteName, Port, BackendAddr, UnrealAddr, ssl, debugLevel))
 		ctx.Redirect("/admin/site/list/")
 	} else {
 		ctx.Redirect("/login/")

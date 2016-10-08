@@ -12,6 +12,7 @@ type Site struct {
 	SiteName    string `xorm:"unique"`
 	Port        int
 	BackendAddr []string
+	UnrealAddr  []string
 	Ssl         string    `xorm:"varchar(10) notnull default 'off'"`
 	DebugLevel  string    `xorm:"varchar(10) notnull default 'error'"`
 	LastChange  time.Time `xorm:"updated"`
@@ -32,7 +33,7 @@ func ListSiteById(Id int64) (sites []Site, err error) {
 	return sites, err
 }
 
-func NewSite(siteName string, Port int, BackendAddr []string, SSL string, DebugLevel string) (err error) {
+func NewSite(siteName string, Port int, BackendAddr []string, UnrealAddr []string, SSL string, DebugLevel string) (err error) {
 	if SSL == "" {
 		SSL = "off"
 	}
@@ -40,11 +41,11 @@ func NewSite(siteName string, Port int, BackendAddr []string, SSL string, DebugL
 		DebugLevel = "error"
 	}
 
-	_, err = Engine.Insert(&Site{SiteName: siteName, Port: Port, BackendAddr: BackendAddr, Ssl: SSL, DebugLevel: DebugLevel})
+	_, err = Engine.Insert(&Site{SiteName: siteName, Port: Port, BackendAddr: BackendAddr, UnrealAddr: UnrealAddr, Ssl: SSL, DebugLevel: DebugLevel})
 	return err
 }
 
-func UpdateSite(Id int64, SiteName string, Port int, BackendAddr []string, SSL string, DebugLevel string) (err error) {
+func UpdateSite(Id int64, SiteName string, Port int, BackendAddr []string, UnrealAddr []string, SSL string, DebugLevel string) (err error) {
 	if SSL == "" {
 		SSL = "off"
 	}
@@ -57,6 +58,7 @@ func UpdateSite(Id int64, SiteName string, Port int, BackendAddr []string, SSL s
 	site.SiteName = SiteName
 	site.Port = Port
 	site.BackendAddr = BackendAddr
+	site.UnrealAddr = UnrealAddr
 	site.Ssl = SSL
 	site.DebugLevel = DebugLevel
 	_, err = Engine.Id(Id).Update(site)
@@ -67,4 +69,3 @@ func DelSite(id int64) (err error) {
 	_, err = Engine.Delete(&Site{Id: id})
 	return err
 }
-
