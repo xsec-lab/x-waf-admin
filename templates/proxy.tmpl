@@ -2,7 +2,7 @@ upstream proxy_{{.site.SiteName}} { {{range .site.BackendAddr}}
         server {{.}} max_fails=3  fail_timeout=20s;
         {{end}} }
 
-upstream proxy_{{.site.SiteName}} { {{range .site.UnrealAddr}}
+upstream unreal_{{.site.SiteName}} { {{range .site.UnrealAddr}}
         server {{.}} max_fails=3  fail_timeout=20s;
         {{end}} }
 
