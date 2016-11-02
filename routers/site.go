@@ -47,7 +47,7 @@ func DoNewSite(ctx *macaron.Context, sess session.Store) {
 		}
 
 		// get nginx upstream unreal address
-		unrealAddr := ctx.Req.Form("unreal_addr")
+		unrealAddr := ctx.Req.Form.Get("unreal_addr")
 		unrealAddrs := strings.Split(unrealAddr, "\r\n")
 		UnrealAddr := make([]string, 0)
 		for _, v := range unrealAddrs {
@@ -104,7 +104,7 @@ func DoEditSite(ctx *macaron.Context, sess session.Store) {
 		}
 
 		// get nginx upstream unreal address
-		unrealAddr := ctx.Req.Form("unreal_addr")
+		unrealAddr := ctx.Req.Form.Get("unreal_addr")
 		unrealAddrs := strings.Split(unrealAddr, "\r\n")
 		UnrealAddr := make([]string, 0)
 		for _, v := range unrealAddrs {
