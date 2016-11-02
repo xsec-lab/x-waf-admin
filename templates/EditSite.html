@@ -88,8 +88,15 @@
                         <input type="text"  name="port" placeholder="port" value="{{.site.Port}}" autofocus>
                     </div>
                     <div class="form-group">
-                        <textarea name="backendaddr">
+                        后端地址：<textarea name="backendaddr">
                             {{range .site.BackendAddr}}
+                                {{.}}
+                            {{end}}
+                        </textarea>
+                    </div>
+                    <div class="form-group">
+                        蜜罐后端地址：<textarea name="unreal_addr">
+                            {{range .site.UnrealAddr}}
                                 {{.}}
                             {{end}}
                         </textarea>

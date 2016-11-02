@@ -83,7 +83,8 @@
                     <input type="hidden" name="_csrf" value="{{.csrf_token}}">
                     <input type="text"  name="sitename" placeholder="sitename" class="form-control" autofocus>
                     <input type="text"  name="port" placeholder="port" class="form-control" autofocus>
-                    <textarea name="backendaddr" class="form-control"></textarea>
+                    后端地址列表：<textarea name="backendaddr" class="form-control"></textarea>
+                    蜜罐后端地址列表：<textarea name="unreal_addr" class="form-control"></textarea>
                     <div class="form-group">
                         <label>SSL Status</label>
                         <select class="form-control" name="ssl">
