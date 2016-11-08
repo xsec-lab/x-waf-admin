@@ -19,12 +19,11 @@ server  {
             access_by_lua 'waf.start_jingshuishuiyue()';
             proxy_pass_header Server;
             proxy_set_header Host $http_host;
-            proxy_set_header Host api.miren.t.n.mi.com;
             proxy_redirect off;
             proxy_set_header X-Real-IP $remote_addr;
             proxy_set_header X-Scheme $scheme;
             # proxy_pass $scheme://$target;
-            # proxy_pass $scheme://proxy_{{.site.SiteName}};
+            proxy_pass $scheme://${target}{{.site.SiteName}};
             }
 
             error_page  404              /index.html;
