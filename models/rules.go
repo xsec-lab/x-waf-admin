@@ -15,6 +15,7 @@ var RuleInfo = map[string]string{
 	"cookie":    "cookies规则",
 	"url":       "url规则",
 	"useragent": "UserAgent规则",
+	"headers":   "headers规则",
 	"whiteUrl":  "URL白名单",
 	"post":      "post规则",
 }
